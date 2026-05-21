@@ -1,6 +1,5 @@
-# Gradle
-.gradle/
-build/
+# Maven
+target/
 
 # Eclipse
 .project
@@ -9,7 +8,7 @@ build/
 bin/
 
 # IntelliJ
-.idea
+.idea/
 *.ipr
 *.iml
 *.iws
@@ -18,7 +17,7 @@ bin/
 nb-configuration.xml
 
 # Visual Studio Code
-.vscode
+.vscode/
 .factorypath
 
 # OSX
@@ -28,19 +27,17 @@ nb-configuration.xml
 *.swp
 *.swo
 
-# patch
+# Patch
 *.orig
 *.rej
 
 # Local environment
 .env
 
-# Plugin directory
+# Quarkus / Gradle cache (legacy)
 /.quarkus/cli/plugins/
-# TLS Certificates
 .certs/
+.gradle/
 
-# RSA private key — intentionally committed for this demo project only.
-# In production, never commit private keys; load from a secrets manager instead.
-# If pushing to a public remote, regenerate the key pair and do NOT include privateKey.pem.
-# privateKey.pem
+# Binary / doc files
+*.pdf
