@@ -55,9 +55,62 @@ El proyecto sigue la **Arquitectura Hexagonal (Puertos y Adaptadores)** la prese
 
 ## 5. Requisitos
 
-- Java 21+
-- Docker (para Dev Services — PostgreSQL se aprovisiona automáticamente)
-- Acceso a Internet (para llamadas a restcountries.com al crear/actualizar)
+| Herramienta | Versión mínima | Necesaria para |
+|---|---|---|
+| Java | 21 | Compilar y ejecutar localmente |
+| Maven | — | El wrapper `mvnw` / `mvnw.cmd` está incluido, no requiere instalación |
+| Docker | 20+ | Dev Services (modo dev/test) y despliegue con Docker Compose |
+
+> Acceso a Internet requerido para llamadas a [restcountries.com](https://restcountries.com) al crear o actualizar clientes.
+>
+> 
+## 6. Configuración e Instalación
+
+### 6.1 Opción A — Docker Compose (recomendado)
+
+Levanta la aplicación y PostgreSQL con un solo comando. No requiere Java instalado localmente.
+
+```bash
+# 1. Compilar el JAR
+./mvnw package -DskipTests     # Linux/macOS
+mvnw.cmd package -DskipTests   # Windows
+
+# 2. Construir la imagen y levantar todos los servicios
+docker compose up --build
+```
+
+La API queda disponible en `http://localhost:8080`.
+
+Para detener:
+
+```bash
+docker compose down
+```
+
+**Variables de entorno configuradas por Docker Compose:**
+
+| Variable | Valor |
+|---|---|
+| `QUARKUS_DATASOURCE_JDBC_URL` | `jdbc:postgresql://postgres:5432/customerdb` |
+| `QUARKUS_DATASOURCE_USERNAME` | `banreservas` |
+| `QUARKUS_DATASOURCE_PASSWORD` | `banreservas123` |
+| `QUARKUS_HIBERNATE_ORM_DATABASE_GENERATION` | `update` |
+| `QUARKUS_REST_CLIENT_COUNTRY_API_URL` | `https://restcountries.com` |
+
+---
+
+### 6.2 Opción B — Modo desarrollo local (Maven + Dev Services)
+
+Requiere Java 21 y Docker en ejecución. Quarkus Dev Services aprovisiona PostgreSQL automáticamente.
+
+```bash
+./mvnw quarkus:dev            # Linux/macOS
+mvnw.cmd quarkus:dev          # Windows
+```
+
+La API queda disponible en `http://localhost:8080`.
+
+---
 
 
 
