@@ -7,16 +7,11 @@ Servicio RESTful para gestión de clientes construido con **Quarkus 3.x**, **Jav
 ## Tabla de Contenidos
 
 1. [Descripción de la Solución](#1-descripción-de-la-solución)
-2. [Arquitectura](#2-arquitectura)
-3. [Modelo de Datos](#3-modelo-de-datos)
-4. [Requisitos](#4-requisitos)
-5. [Configuración e Instalación](#5-configuración-e-instalación)
-6. [Autenticación](#6-autenticación)
-7. [Referencia de API](#7-referencia-de-api)
-8. [Manejo de Errores](#8-manejo-de-errores)
-9. [Validación de Datos](#9-validación-de-datos)
-10. [Pruebas](#10-pruebas)
-11. [Decisiones de Diseño](#11-decisiones-de-diseño)
+2. [Decisiones de Diseño](#11-decisiones-de-diseño)
+3. [Arquitectura](#2-arquitectura)
+4. [Modelo de Datos](#3-modelo-de-datos)
+5. [Requisitos](#4-requisitos)
+6. [Configuración e Instalación](#5-configuración-e-instalación)
 
 ---
 
@@ -24,9 +19,12 @@ Servicio RESTful para gestión de clientes construido con **Quarkus 3.x**, **Jav
 
 Este servicio provee una API RESTful para gestionar la lista de clientes de una empresa. Permite crear, consultar, actualizar y eliminar registros de clientes. El gentilicio del país se resuelve automáticamente a través de la API externa [restcountries.com](https://restcountries.com) usando el código de país ISO 3166 alpha-2 proporcionado al registrar un cliente.
 
-## 2. Arquitectura
+## 2. Decisiones de Diseño
+La decision de utilizar esta arquitectura viene dada por la necesidad de aislar la capa de negocio, es decir aislar el dominio de y que el mismo no depende de alguna tecnologia. El negocio no debería saber si los datos vienen de una base de datos, de un API o de un archivo. La forma en como se obtienen los datos es un detalle técnico que puede cambiar. La arquitectura hexagonal fue elegida precisamente para garantizar ese aislamiento: el núcleo de negocio define lo que necesita, y la tecnología se adapta a él — nunca al revés. Esto Permite que si la tecnologia cambia la capa de dominio se mantiene igual sin cambiar y las nuevas tecnologia se adaptan al dominio, esto incluso hace que los cambios sean mas manejables en el tiempo porque todos los detalles tecnicos estan creados en base a interfaces.
 
-### 2.1 Arquitectura Hexagonal — Visión General de Capas
+## 3. Arquitectura
+
+### 3.1 Arquitectura Hexagonal — Visión General de Capas
 
 El proyecto sigue la **Arquitectura Hexagonal (Puertos y Adaptadores)** la presentación e infraestructura dependen del dominio; el dominio no depende de nada.
 
@@ -38,5 +36,28 @@ El proyecto sigue la **Arquitectura Hexagonal (Puertos y Adaptadores)** la prese
 | Aplicación | `application/` | Solo los puertos de dominio |
 | Dominio | `domain/` | Nada |
 | Infraestructura | `infrastructure/` | Puertos de dominio + Quarkus/JPA |
+
+## 4 Modelo de Datos
+
+| Campo | Requerido | Formato | Notas |
+|---|---|---|---|
+| `firstName` | Sí | String, máx. 100 chars | Se recorta al guardar |
+| `middleName` | No | String, máx. 100 chars | Se recorta al guardar |
+| `lastName` | Sí | String, máx. 100 chars | Se recorta al guardar |
+| `secondLastName` | No | String, máx. 100 chars | Se recorta al guardar |
+| `email` | Sí | Formato de correo válido | Minúsculas, único |
+| `address` | Sí | String, máx. 500 chars | Se recorta al guardar |
+| `phone` | Sí | String, máx. 30 chars | Se recorta al guardar |
+| `country` | Sí | 2 letras ISO 3166 alpha-2 | Mayúsculas; activa la consulta del gentilicio |
+| `demonym` | Automático | String | Obtenido de restcountries.com, no lo provee el usuario |
+
+---
+
+## 5. Requisitos
+
+- Java 21+
+- Docker (para Dev Services — PostgreSQL se aprovisiona automáticamente)
+- Acceso a Internet (para llamadas a restcountries.com al crear/actualizar)
+
 
 
