@@ -37,6 +37,10 @@ El proyecto sigue la **Arquitectura Hexagonal (Puertos y Adaptadores)** la prese
 | Dominio | `domain/` | Nada |
 | Infraestructura | `infrastructure/` | Puertos de dominio + Quarkus/JPA |
 
+**Diagrama ilustrativo:**
+<img width="1485" height="890" alt="image" src="https://github.com/user-attachments/assets/499d7cf3-a90f-45fb-bce2-488c19b9a1c1" />
+
+
 ## 4 Modelo de Datos
 
 | Campo | Requerido | Formato | Notas |
