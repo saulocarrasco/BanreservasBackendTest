@@ -23,3 +23,20 @@ Servicio RESTful para gestión de clientes construido con **Quarkus 3.x**, **Jav
 ## 1. Descripción de la Solución
 
 Este servicio provee una API RESTful para gestionar la lista de clientes de una empresa. Permite crear, consultar, actualizar y eliminar registros de clientes. El gentilicio del país se resuelve automáticamente a través de la API externa [restcountries.com](https://restcountries.com) usando el código de país ISO 3166 alpha-2 proporcionado al registrar un cliente.
+
+## 2. Arquitectura
+
+### 2.1 Arquitectura Hexagonal — Visión General de Capas
+
+El proyecto sigue la **Arquitectura Hexagonal (Puertos y Adaptadores)** la presentación e infraestructura dependen del dominio; el dominio no depende de nada.
+
+**Responsabilidades por capa:**
+
+| Capa | Paquete | Depende de |
+|---|---|---|
+| Presentación | `presentation/` | Solo la capa de aplicación |
+| Aplicación | `application/` | Solo los puertos de dominio |
+| Dominio | `domain/` | Nada |
+| Infraestructura | `infrastructure/` | Puertos de dominio + Quarkus/JPA |
+
+
