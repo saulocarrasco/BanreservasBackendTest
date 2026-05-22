@@ -46,13 +46,13 @@ El proyecto sigue la **Arquitectura Hexagonal (Puertos y Adaptadores)** la prese
 
 | Campo | Requerido | Formato | Notas |
 |---|---|---|---|
-| `firstName` | Sí | String, máx. 100 chars | Se recorta al guardar |
-| `middleName` | No | String, máx. 100 chars | Se recorta al guardar |
-| `lastName` | Sí | String, máx. 100 chars | Se recorta al guardar |
-| `secondLastName` | No | String, máx. 100 chars | Se recorta al guardar |
+| `firstName` | Sí | String, máx. 100 chars | |
+| `middleName` | No | String, máx. 100 chars |  |
+| `lastName` | Sí | String, máx. 100 chars | |
+| `secondLastName` | No | String, máx. 100 chars | |
 | `email` | Sí | Formato de correo válido | Minúsculas, único |
-| `address` | Sí | String, máx. 500 chars | Se recorta al guardar |
-| `phone` | Sí | String, máx. 30 chars | Se recorta al guardar |
+| `address` | Sí | String, máx. 500 chars | |
+| `phone` | Sí | String, máx. 30 chars | |
 | `country` | Sí | 2 letras ISO 3166 alpha-2 | Mayúsculas; activa la consulta del gentilicio |
 | `demonym` | Automático | String | Obtenido de restcountries.com, no lo provee el usuario |
 
