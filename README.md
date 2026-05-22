@@ -129,7 +129,7 @@ Requiere Java 21 y Docker en ejecución. Quarkus Dev Services aprovisiona Postgr
 mvnw.cmd quarkus:dev          # Windows
 ```
 
-La API queda disponible en `http://localhost:8080`. El modo dev incluye recarga en caliente y la consola Dev UI en `http://localhost:8080/q/dev`.
+La API queda disponible en `http://localhost:8080`.
 
 ---
 
@@ -140,31 +140,6 @@ La API queda disponible en `http://localhost:8080`. El modo dev incluye recarga 
 ```
 
 > Requiere Docker en ejecución — Dev Services aprovisiona PostgreSQL automáticamente para las pruebas de integración.
-
----
-
-### 5.4 Construir JAR manualmente
-
-```bash
-./mvnw package
-java -jar target/quarkus-app/quarkus-run.jar
-```
-
-Requiere una base de datos PostgreSQL accesible. Configurar la conexión mediante variables de entorno o `application.properties`.
-
-### 5.5 Referencia de configuración
-
-| Propiedad | Valor por defecto | Perfil | Descripción |
-|---|---|---|---|
-| `quarkus.datasource.db-kind` | `postgresql` | Todos | Motor de base de datos |
-| `quarkus.hibernate-orm.database.generation` | `update` (dev), `drop-and-create` (test) | Por perfil | Gestión del esquema |
-| `mp.jwt.verify.publickey.location` | `publicKey.pem` | Todos | Clave pública RSA para verificación de JWT |
-| `mp.jwt.verify.issuer` | `https://banreservas.com` | Todos | Emisor esperado del JWT |
-| `smallrye.jwt.sign.key.location` | `privateKey.pem` | Todos | Clave privada RSA para firma de JWT |
-| `smallrye.jwt.new-token.lifespan` | `3600` | Todos | TTL del token en segundos (1 hora) |
-| `quarkus.rest-client.country-api.url` | `https://restcountries.com` | Todos | URL base de la API externa de países |
-| `app.auth.username` | `admin` | Solo demo | Credencial de demo — reemplazar en producción |
-| `app.auth.password` | `secret123` | Solo demo | Credencial de demo — reemplazar en producción |
 
 ---
 
@@ -414,8 +389,6 @@ Validación en profundidad: se aplica en cada capa para que ningún punto de fal
 ---
 
 ## 11. Decisiones de Diseño
-
-El registro completo de decisiones de diseño con justificaciones se encuentra en [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 Decisiones clave de un vistazo:
 
