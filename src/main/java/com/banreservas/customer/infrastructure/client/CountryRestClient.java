@@ -18,6 +18,6 @@ public interface CountryRestClient {
     @GET
     @Path("/alpha/{code}")
     @Produces(MediaType.APPLICATION_JSON)
-    List<CountryApiResponse> getByCode(@PathParam("code") String code,
-                                        @QueryParam("fields") String fields);
+    CountryApiResponse getByCode(@PathParam("code") String code,
+                                  @QueryParam("fields") String fields);
 }

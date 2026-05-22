@@ -7,11 +7,12 @@ import com.banreservas.customer.infrastructure.client.dto.CountryApiResponse;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.WebApplicationException;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-
-import java.util.List;
+import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class CountryGatewayAdapter implements CountryGateway {
+
+    private static final Logger LOG = Logger.getLogger(CountryGatewayAdapter.class);
 
     @RestClient
     CountryRestClient restClient;
@@ -19,15 +20,11 @@ public class CountryGatewayAdapter implements CountryGateway {
     @Override
     public String getDemonym(String isoAlpha2Code) {
         try {
-            List<CountryApiResponse> results = restClient.getByCode(isoAlpha2Code, "demonyms");
-            if (results == null || results.isEmpty()) {
+            CountryApiResponse result = restClient.getByCode(isoAlpha2Code, "demonyms");
+            if (result == null || result.demonyms == null) {
                 throw new InvalidCountryException(isoAlpha2Code);
             }
-            CountryApiResponse first = results.get(0);
-            if (first.demonyms == null) {
-                throw new InvalidCountryException(isoAlpha2Code);
-            }
-            CountryApiResponse.DemonymEntry eng = first.demonyms.get("eng");
+            CountryApiResponse.DemonymEntry eng = result.demonyms.get("eng");
             if (eng == null || eng.m == null) {
                 throw new InvalidCountryException(isoAlpha2Code);
             }
@@ -40,6 +37,7 @@ public class CountryGatewayAdapter implements CountryGateway {
         } catch (InvalidCountryException e) {
             throw e;
         } catch (Exception e) {
+            LOG.errorf(e, "Country service call failed for code '%s': %s", isoAlpha2Code, e.getMessage());
             throw new CountryServiceUnavailableException();
         }
     }
