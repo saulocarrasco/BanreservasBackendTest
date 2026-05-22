@@ -7,11 +7,12 @@ Servicio RESTful para gestión de clientes construido con **Quarkus 3.x**, **Jav
 ## Tabla de Contenidos
 
 1. [Descripción de la Solución](#1-descripción-de-la-solución)
-2. [Decisiones de Diseño](#11-decisiones-de-diseño)
-3. [Arquitectura](#2-arquitectura)
-4. [Modelo de Datos](#3-modelo-de-datos)
-5. [Requisitos](#4-requisitos)
-6. [Configuración e Instalación](#5-configuración-e-instalación)
+2. [Decisiones de Diseño](#2-decisiones-de-diseño)
+3. [Arquitectura](#3-arquitectura)
+4. [Modelo de Datos](#4-modelo-de-datos)
+5. [Requisitos](#5-requisitos)
+6. [Configuración e Instalación](#6-configuración-e-instalación)
+7. [Pruebas](#7-pruebas)
 
 ---
 
@@ -113,6 +114,33 @@ mvnw.cmd quarkus:dev          # Windows
 ```
 
 La API queda disponible en `http://localhost:8080`.
+
+---
+
+## 7. Pruebas
+
+### Descripción del conjunto de pruebas
+
+| Clase | Tipo | Cobertura |
+|---|---|---|
+| `CustomerServiceTest` | Unitaria (Mockito, sin contenedor) | 13 pruebas — todas las ramas del servicio |
+| `CustomerResourceTest` | Integración (`@QuarkusTest` + BD real) | 12 pruebas — capa HTTP y cableado |
+| `CustomerValidationTest` | Integración | 7 pruebas — reglas de validación de entrada |
+| `AuthResourceTest` | Integración | 5 pruebas — endpoint de autenticación y JWT |
+
+### Ejecutar pruebas
+
+```bash
+./mvnw test
+```
+
+> Las pruebas de integración requieren Docker en ejecución (Dev Services aprovisiona PostgreSQL automáticamente).
+
+### Estrategia de pruebas
+
+- **Pruebas unitarias** usan mocks de Mockito para `CustomerRepository` y `CountryGateway` — sin contenedor, sin base de datos, se ejecutan en menos de 1 segundo.
+- **Pruebas de integración** usan `@QuarkusTest` con PostgreSQL real (Dev Services), `@InjectMock CountryGateway` (seguro sin conexión, determinista) y `@TestSecurity` para omitir la verificación JWT de forma que las pruebas se enfoquen en el comportamiento de negocio.
+- Cada prueba de integración comienza con una base de datos limpia (`@BeforeEach` trunca la tabla de clientes).
 
 ---
 
